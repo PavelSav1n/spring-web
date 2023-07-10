@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Films</title>
+</head>
+<body>
+
+<h1>List of Films:</h1>
+<!-- Технически можно отображать напрямую из доменов, но лучше создать DTO и отображать только ту информацию, которая нам нужна:-->
+<table border="1px">
+    <tr th:each="film:${films}">
+        <td th:text="${film.getId()}">Default film id</td>
+        <td th:text="${film.getTitle()}">Default film title</td>
+        <td th:text="${film.getGenre()}">Default film genre</td>
+        <td th:text="${film.getPlaces()}">Default film places</td>
+    </tr>
+</table>
+
+</body>
+</html>

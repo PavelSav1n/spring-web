@@ -13,8 +13,17 @@ public class NotebookRestController {
     private final NotebookService notebookService;
 
     @GetMapping("/rest")
-    // рест через RequestParam получает json в адресной строке (например http:.../rest?id=1)
+    // рест через RequestParam получает параметр и значение в адресной строке (например http:.../rest?id=1)
     // TODO: не понятно, отдаём мы тут страницу или что?
+    // Отдаём application/json -- это неупорядоченное множество пар {"ключ":"значение"} (числа без кавычек)
+    // {
+    //  "ключ1":"значение",
+    //  "ключ2":число,
+    //  "inner_object": { "x":1, "y":2 },
+    //  "inner_array": [2, 3, 4],
+    //  ...
+    //  "ключN":"значение"
+    // }
     public Notebook get(@RequestParam(value = "id", defaultValue = "1") long id) {
         return notebookService.findById(id);
 

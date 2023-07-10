@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS genre, films, place;
+
+CREATE TABLE genre (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR2(256)
+);
+
+CREATE TABLE films (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR2(256),
+    genre_id BIGINT REFERENCES genre(id)
+);
+
+CREATE TABLE place (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR2(256),
+    film_id BIGINT REFERENCES films(id)
+);

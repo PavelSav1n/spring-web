@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>mvc-demo</module>
+		<module>spring-boot-jpa-data-mvc-thymeleaf</module>
 	</modules>
 
 	<properties>
