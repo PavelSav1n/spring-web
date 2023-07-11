@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS pets, users;
+
+CREATE TABLE users(
+    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(256),
+    age INT
+);
+
+CREATE TABLE pets(
+    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    species VARCHAR(256),
+    user_id BIGINT REFERENCES users(id)
+);

@@ -11,6 +11,7 @@
 	<modules>
 		<module>mvc-demo</module>
 		<module>spring-boot-jpa-data-mvc-thymeleaf</module>
+		<module>spring-boot-jpa-data-mvc-thymeleaf-hw</module>
 	</modules>
 
 	<properties>
