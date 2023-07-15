@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--текст с параметрами пишется в || -->
+    <title th:text="|${genre.name} genre page|">Genre page</title>
+</head>
+<body>
+
+<h1>Genre:</h1>
+<!-- Технически можно отображать напрямую из доменов, но лучше создать DTO и отображать только ту информацию, которая нам нужна:-->
+<table border="1px">
+    <tr>
+        <!-- ${genre.id} equals ${genre.getId()}-->
+        <td th:text="${genre.id}">Default genre id</td>
+        <td th:text="${genre.name}">Default genre name</td>
+    </tr>
+</table>
+
+</body>
+</html>
