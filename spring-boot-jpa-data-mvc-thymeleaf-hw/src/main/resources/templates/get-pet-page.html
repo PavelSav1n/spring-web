@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Pets</title>
+    <title th:text="|${pet.species} page|">Pet page</title>
 </head>
+
 <body>
-
-<h1>List of Pets:</h1>
-
+<h1 th:text="|'${pet.species}   ' specie details:|">Pet details:</h1>
 <table border="1px">
     <tr>
         <th>id</th>
@@ -15,15 +15,12 @@
         <th>user_id</th>
         <th>user_name</th>
     </tr>
-    <tr th:each="pet:${pets}">
+    <tr>
         <td th:text="${pet.id}">123</td>
-        <td><a th:text="${pet.species}" th:href="|/pets/${pet.id}|">Default specie</a></td>
-        <td th:text="${pet.user_id}">321</td>
+        <td th:text="${pet.species}">Default species</td>
+        <td th:text="${pet.user_id}">123</td>
         <td th:text="${pet.user_name}">123</td>
     </tr>
 </table>
-
-<a href="/pets/add">Add new pet!</a>
-
 </body>
 </html>

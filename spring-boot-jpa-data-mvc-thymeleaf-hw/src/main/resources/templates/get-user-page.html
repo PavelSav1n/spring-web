@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title th:text="|${user.name} page|">User page</title>
 </head>
+
 <body>
-
-<h1>List of Users:</h1>
-
+<h1 th:text="|${user.name} details:|">User details:</h1>
 <table border="1px">
     <tr>
         <th>id</th>
         <th>name</th>
         <th>age</th>
-        <th>pets list</th>
+        <th>pets</th>
     </tr>
-    <tr th:each="user:${users}">
-        <td th:text="${user.id}"></a>123</td>
-        <td><a th:text="${user.name}" th:href="|/users/${user.id}|">Default name</a></td>
-        <td th:text="${user.age}">123</td>
+    <tr>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.age}"></td>
         <td th:text="${#lists.isEmpty(user.pets)} ? 'no pets' : ${user.pets}">Default pets list</td>
     </tr>
 </table>
-
+<a href="/users">Back to users page</a>
 </body>
 </html>

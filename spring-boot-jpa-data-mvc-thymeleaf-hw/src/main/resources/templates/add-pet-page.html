@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add new pet</title>
+</head>
+
+<body>
+<h1>Add new pet:</h1>
+<!--зачем этот action="add-pet-page.html"?-->
+<form id="add-pet-form" th:action="@{/pets/add}" th:method="post" action="add-pet-page.html">
+    <div>
+        <label for="species-input">Species:</label>
+        <input required id="species-input" name="species" type="text" value=""/>
+        <label for="user-input">User name:</label>
+        <!-- в модель передаётся имя тэга select, а не имя тэга option. Внимательно!-->
+        <select id="user-input" name="user_id" required size="1">
+            <option value="" hidden>Select owner</option>
+            <option th:each="user:${users}" id="user_option" name="whatever" th:value="${user.id}" th:text="${user.name}">Default option</option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </div>
+</form>
+</body>
+</html>

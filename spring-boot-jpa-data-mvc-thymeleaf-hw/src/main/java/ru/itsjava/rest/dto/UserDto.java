@@ -2,13 +2,14 @@ package ru.itsjava.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import ru.itsjava.domain.Pet;
 import ru.itsjava.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@ToString
 @Getter
 @AllArgsConstructor
 public class UserDto {
@@ -36,11 +37,16 @@ public class UserDto {
     }
 
     public static User fromDto(UserDto userDto) {
+        if (userDto.id == null){
+            userDto.id = "0";
+        }
         long id = Long.parseLong(userDto.id);
         String name = userDto.name;
         int age = Integer.parseInt(userDto.age);
 
         List<Pet> petList = new ArrayList<>();
+
+        System.out.println("fromDto ********** userDto.pets = " + userDto.pets);
 
         if (userDto.pets != null) {
             String[] petsNamesArray = userDto.pets.split(",");
