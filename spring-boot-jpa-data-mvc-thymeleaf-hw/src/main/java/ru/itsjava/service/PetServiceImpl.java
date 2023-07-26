@@ -26,6 +26,11 @@ public class PetServiceImpl implements PetService {
         return petRepository.findById(id);
     }
 
+    @Override
+    public Optional<Pet> findBySpecie(String specie) {
+        return petRepository.findBySpecies(specie);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<Pet> findAll() {

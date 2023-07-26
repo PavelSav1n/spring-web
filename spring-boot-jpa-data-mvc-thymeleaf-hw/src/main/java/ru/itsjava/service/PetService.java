@@ -11,6 +11,8 @@ public interface PetService {
 
     Optional<Pet> findById(long id);
 
+    Optional<Pet> findBySpecie(String specie);
+
     List<Pet> findAll();
 
     void printAll();

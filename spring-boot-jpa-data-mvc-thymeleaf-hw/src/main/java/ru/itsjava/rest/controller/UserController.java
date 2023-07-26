@@ -15,6 +15,7 @@ import ru.itsjava.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -72,7 +73,14 @@ public class UserController {
         List<Pet> petListCorrect = new ArrayList<>(); // нормальный список
         for (Pet pet : petListFromDto) {
             if (!pet.getSpecies().isBlank()) { // проверка на пустое поле
-                petListCorrect.add(new Pet(0L, pet.getSpecies(), userFromJpa.getId()));
+                // Логика такая, что мы не плодим сущностей петов. Если мы выбрали для нового пользователя пета, который уже кому-то принадлежит, то этот пет меняет владельца.
+                // Если мы хотим создавать каждому новому пользователю новых петов, то просто убираем petFromJpa и if ниже:
+                Optional<Pet> petFromJpa = petService.findBySpecie(pet.getSpecies());
+                if (petFromJpa.isPresent()) {
+                    petListCorrect.add(new Pet(petFromJpa.get().getId(), pet.getSpecies(), userFromJpa.getId()));
+                } else {
+                    petListCorrect.add(new Pet(0L, pet.getSpecies(), userFromJpa.getId()));
+                }
             }
         }
 
