@@ -9,12 +9,26 @@
 <h1>List of Genres:</h1>
 <!-- Технически можно отображать напрямую из доменов, но лучше создать DTO и отображать только ту информацию, которая нам нужна:-->
 <table border="1px">
+    <tr>
+        <th>id</th>
+        <th>genre</th>
+        <th>edit</th>
+        <th>delete</th>
+    </tr>
     <tr th:each="genre:${genreList}">
         <!-- ${genre.id} equals ${genre.getId()}-->
         <td th:text="${genre.id}">Default genre id</td>
-        <td th:text="${genre.name}">Default genre name</td>
+        <!--@{/genre/(${genre.id})} будет отдавать http://localhost:8080/genre/?2 поэтому использую обычный текст в ||:-->
+        <!--Ниже две конструкции отдают одно и то же. В первом варианте в || просто используем переменные в тексте, во втором в @{} используются именованные параметры-->
+        <!--<td><a th:href="|/genre/${genre.id}|" th:text="${genre.name}">Default genre</a></td>-->
+        <td><a th:href="@{/genre/{id}(id=${genre.id})}" th:text="${genre.name}">Default genre</a></td>
+        <td><a th:href="|/genre/${genre.id}/edit|">edit</a></td>
+        <td><a th:href="|/genre/${genre.id}/delete|">x</a></td>
     </tr>
 </table>
+<div><a href="/genre/add">Create new genre</a></div>
+<div><a href="/">Back</a></div>
+
 
 </body>
 </html>

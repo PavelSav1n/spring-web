@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit page</title>
+</head>
+<body>
+<h1>Delete genre:</h1>
+<form id="edit-form" th:action="@{/genre/{id}/delete(id=${genreDto.id})}" th:method="post" action="delete-genre-page.html">
+
+  <table>
+    <tr>
+      <td><label for="id-input">id</label></td>
+      <td><input id="id-input" name="id" type="text" readonly="readonly" th:value="${genreDto.id}"/></td>
+    </tr>
+    <tr>
+      <td><label for="name-input">name:</label></td>
+      <td><input id="name-input" name="name" type="=text" readonly="readonly" th:value="${genreDto.name}" value="Default name"/></td>
+
+    </tr>
+  </table>
+  <div>
+    <button type="submit">Delete</button>
+  </div>
+
+</form>
+</body>
+</html>

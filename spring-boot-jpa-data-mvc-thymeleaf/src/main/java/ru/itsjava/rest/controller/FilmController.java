@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.itsjava.domain.Film;
 import ru.itsjava.rest.dto.FilmDto;
 import ru.itsjava.service.FilmService;
@@ -16,7 +18,7 @@ import java.util.List;
 public class FilmController {
     private final FilmService filmService;
 
-    @GetMapping("/films")
+    @GetMapping("/film")
     public String filmsPage(Model model) {
         List<Film> allFilms = filmService.getAllFilms();
         List<FilmDto> filmDtoList = new ArrayList<>();
@@ -25,16 +27,24 @@ public class FilmController {
             filmDtoList.add(FilmDto.toDto(film));
         }
 
-        //Из Dto мы не получаем persistent entities в нашем случае:
-//        List<Film> filmFromDtoList = new ArrayList<>();
-//
-//        for (FilmDto film : filmDtoList) {
-//            filmFromDtoList.add(FilmDto.fromDto(film));
-//        }
-
-
         model.addAttribute("films", filmDtoList);
         return "films-page";
     }
 
+    @GetMapping("/film/{id}")
+    public String getFilmPage(@PathVariable("id") long id, Model model) {
+        model.addAttribute("film", FilmDto.toDto(filmService.getById(id).get()));
+        return "get-film-page";
+    }
+
+    @GetMapping("/film/add")
+    public String addFilmPage() {
+        return "add-film-page";
+    }
+
+    @PostMapping("/film/add")
+    public String postFilmPage(FilmDto filmDto){
+        filmService.create(FilmDto.fromDto(filmDto));
+        return "/film";
+    }
 }

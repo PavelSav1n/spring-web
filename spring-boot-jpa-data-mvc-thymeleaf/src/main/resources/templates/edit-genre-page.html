@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit page</title>
+</head>
+<body>
+<h1>Edit genre:</h1>
+<!--тут из модели мы получаем сущность genreDto-->
+<form id="edit-form" th:action="@{/genre/{id}/edit(id=${genreDto.id})}" th:method="post" action="edit-genre-page.html">
+
+    <table>
+        <tr>
+            <td><label for="id-input">id</label></td>
+            <td><input id="id-input" name="id" type="text" readonly="readonly" th:value="${genreDto.id}"/></td>
+        </tr>
+        <tr>
+            <td><label for="name-input">name:</label></td>
+            <td><input id="name-input" name="name" type="=text" th:value="${genreDto.name}" value="Default name"/></td>
+
+        </tr>
+    </table>
+    <div>
+        <button type="submit">Save</button>
+    </div>
+
+</form>
+</body>
+</html>

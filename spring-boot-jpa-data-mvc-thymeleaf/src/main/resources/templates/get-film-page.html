@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|${film.title} page|">Film page</title>
+</head>
+
+<body>
+<h1 th:text="|${film.title} details:|"></h1>
+<table border="1px">
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>genre</th>
+        <th>places</th>
+    </tr>
+    <tr>
+        <td th:text="${film.id}">id</td>
+        <td th:text="${film.title}">id</td>
+        <td th:text="${film.genre}">id</td>
+        <td th:text="${film.places}">id</td>
+    </tr>
+</table>
+<a href="/film">Back</a>
+</body>
+</html>
