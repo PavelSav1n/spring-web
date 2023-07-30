@@ -14,16 +14,22 @@
         <th>species</th>
         <th>user_id</th>
         <th>user_name</th>
+        <th>edit</th>
+        <th>delete</th>
     </tr>
     <tr th:each="pet:${pets}">
         <td th:text="${pet.id}">123</td>
         <td><a th:text="${pet.species}" th:href="|/pets/${pet.id}|">Default specie</a></td>
         <td th:text="${pet.user_id}">321</td>
         <td th:text="${pet.user_name}">123</td>
+        <td><a th:href="|/pets/${pet.id}/edit|">edit</a></td>
+        <td><a th:href="|/pets/${pet.id}/delete|">delete</a></td>
     </tr>
 </table>
 </br>
 <a href="/pets/add">Add new pet!</a>
+</br>
+<a href="/">Back</a>
 
 </body>
 </html>

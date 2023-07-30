@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|Edit user ${user.name}|">Edit user</title>
+</head>
+
+<body>
+<h1 th:text="|Edit user '${user.name}':|"> Edit user:</h1>
+<form id="user-edit-form" th:action="@{/users/{id}/edit(id=${user.id})}" th:method="post" action="edit-user-page.html">
+    <table border="1px">
+        <tr>
+            <td><label for="user-id-input">id:</label></td>
+            <td><input id="user-id-input" name="id" type="text" th:value="${user.id}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td><label for="user-name-input">name:</label></td>
+            <td><input id="user-name-input" name="name" type="text" th:value="${user.name}"/></td>
+        </tr>
+        <tr>
+            <td><label for="user-age-input">age:</label></td>
+            <td><input id="user-age-input" name="age" type="text" th:value="${user.age}"/></td>
+        </tr>
+        <tr>
+            <td><label for="pet-input">Add your pet (optional):</label></td>
+            <td>
+                <select id="pet-input" name="pets" size="5" multiple>
+                    <option selected th:value="${user.pets}" th:text="${#lists.isEmpty(user.pets)} ? 'no pets' : ${user.pets}">default pets</option>
+                    <option th:each="pet:${pets}" id="pet-option" name="whatever" th:value="${pet.species}" th:text="${pet.species}">Default option</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit"/>
+</form>
+<div><a href="/users">Back</a></div>
+</body>
+</html>

@@ -46,12 +46,10 @@ public class UserDto {
 
         List<Pet> petList = new ArrayList<>();
 
-        System.out.println("fromDto ********** userDto.pets = " + userDto.pets);
-
-        if (userDto.pets != null) {
+        if (!userDto.pets.equals("")) {
             String[] petsNamesArray = userDto.pets.split(",");
             for (String elem : petsNamesArray) {
-                petList.add(new Pet(0L, elem, id));
+                petList.add(new Pet(0L, elem.strip(), id));
             }
         }
         return new User(id, name, age, petList);

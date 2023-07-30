@@ -2,7 +2,6 @@ package ru.itsjava.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import ru.itsjava.domain.Pet;
 
 @Data

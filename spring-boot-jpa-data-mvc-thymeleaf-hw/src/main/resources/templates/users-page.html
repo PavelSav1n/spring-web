@@ -14,16 +14,22 @@
         <th>name</th>
         <th>age</th>
         <th>pets list</th>
+        <th>update</th>
+        <th>delete</th>
     </tr>
     <tr th:each="user:${users}">
         <td th:text="${user.id}"></a>123</td>
         <td><a th:text="${user.name}" th:href="|/users/${user.id}|">Default name</a></td>
         <td th:text="${user.age}">123</td>
         <td th:text="${#lists.isEmpty(user.pets)} ? 'no pets' : ${user.pets}">Default pets list</td>
+        <td><a th:href="|/users/${user.id}/edit|">edit</a></td>
+        <td><a th:href="|/users/${user.id}/delete|">delete</a></td>
     </tr>
 </table>
 </br>
 <a href="/users/add">Add new user!</a>
+</br>
+<a href="/">Back</a>
 
 </body>
 </html>

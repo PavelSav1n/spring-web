@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title th:text="|Delete user ${user.name}|">Edit user</title>
+</head>
+
+<body>
+<h1 th:text="|Delete user '${user.name}':|"> Edit user:</h1>
+<form id="user-delete-form" th:action="@{/users/{id}/delete(id=${user.id})}" th:method="post" action="delete-user-page.html">
+  <table border="1px">
+    <tr>
+      <td><label for="user-id-input">ID:</label></td>
+      <td><input id="user-id-input" name="id" type="text" th:value="${user.id}" readonly="readonly"/></td>
+    </tr>
+    <tr>
+      <td><label for="user-name-input">Name:</label></td>
+      <td><input id="user-name-input" name="name" type="text" th:value="${user.name}" readonly="readonly"/></td>
+    </tr>
+    <tr>
+      <td><label for="user-age-input">Age:</label></td>
+      <td><input id="user-age-input" name="age" type="text" th:value="${user.age}" readonly="readonly"/></td>
+    </tr>
+    <tr>
+      <td><label for="pet-input">Owned pets:</label></td>
+      <td><input id="pet-input" name="pets" type="text" th:value="${user.pets}" readonly="readonly" value="defaultValue"/></td>
+    </tr>
+  </table>
+  <input type="submit" value="Delete"/>
+</form>
+<div><a href="/users">Back</a></div>
+</body>
+</html>

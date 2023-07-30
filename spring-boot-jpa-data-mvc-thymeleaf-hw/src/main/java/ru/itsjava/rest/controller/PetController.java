@@ -1,6 +1,7 @@
 package ru.itsjava.rest.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import ru.itsjava.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +38,7 @@ public class PetController {
         // передаём в thymeleaf список всех питомцев, чтобы обработать их в pets-page.html
         model.addAttribute("pets", petDtoList);
 
-        petDtoList.stream().forEach(x -> System.out.println(x)); // for debug
+        petDtoList.forEach(System.out::println); // for debug
 
         return "pets-page";
     }
@@ -68,9 +70,45 @@ public class PetController {
 
     @PostMapping("pets/add")
     public String postPet(PetDto petDto) {
-        System.out.println("pets/add -- petDto = " + petDto);
         petService.create(PetDto.fromDto(petDto));
         return "redirect:/pets";
     }
 
+    @GetMapping("pets/{id}/edit")
+    public String editPetPage(@PathVariable("id") long id, Model model) {
+        Optional<Pet> optionalPet = petService.findById(id);
+        if (optionalPet.isPresent()) {
+            PetDto petDto = PetDto.toDto(optionalPet.get());
+            petDto.setUser_name(userService.findById(optionalPet.get().getUser_id()).get().getName()); // передаём имя владельца
+            model.addAttribute("pet", petDto);
+            List<UserDto> userDtoList = userService.findAll().stream().map(UserDto::toDto).toList();
+            model.addAttribute("users", userDtoList);
+            return "edit-pet-page";
+        }
+        return "404";
+    }
+
+    @PostMapping("pets/{id}/edit")
+    public String postEditPetPage(PetDto petDto) {
+        petService.update(PetDto.fromDto(petDto));
+        return "redirect:/pets";
+    }
+
+    @GetMapping("pets/{id}/delete")
+    public String deletePetPage(@PathVariable("id") long id, Model model) {
+        Optional<Pet> optionalPet = petService.findById(id);
+        if (optionalPet.isPresent()) {
+            PetDto petDto = PetDto.toDto(optionalPet.get());
+            petDto.setUser_name(userService.findById(optionalPet.get().getUser_id()).get().getName()); // передаём имя владельца
+            model.addAttribute("pet", petDto);
+            return "delete-pet-page";
+        }
+        return "404";
+    }
+
+    @PostMapping("/pets/{id}/delete")
+    public String postDeletePetPage(PetDto petDto) {
+        petService.delete(PetDto.fromDto(petDto));
+        return "redirect:/pets";
+    }
 }

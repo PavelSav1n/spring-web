@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|${pet.species} edit page|">Pet edit page</title>
+</head>
+
+<body>
+<h1 th:text="|${pet.species} edit page|">Pet edit page</h1>
+<form id="pet-input-form" th:action="@{/pets/{id}/edit(id=${pet.id})}" th:method="post" action="edit-pet-page.html">
+    <table border="1px">
+        <tr>
+            <td><label for="id-input">id</label></td>
+            <td><input id="id-input" name="id" type="text" th:value="${pet.id}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td><label for="specie-input">specie</label></td>
+            <td><input id="specie-input" name="species" type="text" th:value="${pet.species}" value="DefaultValue"/></td>
+        </tr>
+        <tr>
+            <td><label for="user-input">user</label></td>
+            <td>
+                <select id="user-input" name="user_id" size="1">
+                    <option th:value="${pet.user_id}" th:text="${pet.user_name}">Default owner</option>
+                    <option th:each="user:${users}" id="user_option" name="whatever" th:value="${user.id}"
+                            th:text="${user.name}">Default option
+                    </option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit"/>
+</form>
+<div><a href="/pets">Back</a></div>
+</body>
+</html>

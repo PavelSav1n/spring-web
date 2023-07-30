@@ -40,8 +40,6 @@ public class UserController {
         if (userService.findById(id).isPresent()) {
             User user = userService.findById(id).get();
             UserDto userDto = UserDto.toDto(user);
-            System.out.println("user = " + user); // for debug
-            System.out.println("userDto = " + userDto); // for debug
             model.addAttribute("user", userDto);
             return "get-user-page";
         }
@@ -89,6 +87,64 @@ public class UserController {
         }
 
 //        userService.create(UserDto.fromDto(userDto));
+        return "redirect:/users";
+    }
+
+    @GetMapping("users/{id}/edit")
+    public String editUserPage(@PathVariable("id") long id, Model model) {
+//        Optional<User> optionalUser = userService.findById(id);
+//        if (optionalUser.isPresent()) {
+//            model.addAttribute(UserDto.toDto(optionalUser.get()));
+//        }
+        // Строчки выше можно сократить в одну. Нихрена не понятно, но очень интересно.
+        userService.findById(id).ifPresent(user -> model.addAttribute("user", UserDto.toDto(user)));
+        model.addAttribute("pets", petService.findAll());
+        return "edit-user-page";
+    }
+
+    // Логика обновления списка животных такая: чтобы животные не сиротели, когда владелец захочет поменять собаку на кота и у собаки в качестве владельца был null, мы будем
+    // просто добавлять животных к существующим у данного пользователя.
+    @PostMapping("users/{id}/edit")
+    public String postEditUserPage(UserDto userDto) {
+        // Сначала обрабатываем новый список животных:
+        // После UserDto.fromDto(userDto) мы имеем пользователя типа User(id=1, name=Peter Parker, age=25, pets=[Pet(id=0, species=dog, user_id=1), Pet(id=0, species=cat, user_id=1)])
+        // Если мы проапдейтим в персисте этого пользователя, то у предыдущих версий кота и собаки user_id владельца станет null, а в БД создадутся новые кот и собака с новыми id.
+        // Чтобы в персисте не создавались новые коты и собаки, необходимо получить их id из базы и проставить всему списку.
+        User userFromDto = UserDto.fromDto(userDto); // пользователь, полученный с формы
+        List<Pet> petListFromDto = userFromDto.getPets(); // новый список животных, владельцем которых наш пользователь стал. Необходимо получить их реальный id и проставить вместо нулей
+        if (petListFromDto.size() > 0) {
+            for (Pet pet : petListFromDto) {
+                pet.setId(petService.findBySpecie(pet.getSpecies()).get().getId()); // пока без проверки на наличие
+            }
+            // Далее добавляем к этим животным список из уже существующих у данного пользователя:
+            List<Pet> petListFromDB = userService.findById(userFromDto.getId()).get().getPets(); // берём список прежних петов из бд
+            for (Pet pet : petListFromDB) {
+                if (!petListFromDto.contains(pet)) {
+                    petListFromDto.add(pet); // добавляем в новый список всех петов, которых в нём нет
+                }
+            }
+            userFromDto.setPets(petListFromDto);
+        }
+        userService.update(userFromDto);
+        return "redirect:/users";
+    }
+
+    @GetMapping("users/{id}/delete")
+    public String deletePetPage(@PathVariable("id") long id, Model model) {
+        userService.findById(id).ifPresent(user -> model.addAttribute("user", UserDto.toDto(user)));
+        return "delete-user-page";
+    }
+
+    @PostMapping("/users/{id}/delete")
+    public String postDeleteUserPage(UserDto userDto) {
+        User userFromDto = UserDto.fromDto(userDto);
+        List<Pet> petList = userFromDto.getPets();
+        if (petList.size() > 0) { // Если у пользователя были петы, то нещадно их удаляем:
+            for (Pet pet : petList) {
+                petService.delete(petService.findBySpecie(pet.getSpecies()).get());
+            }
+        }
+        userService.delete(userFromDto);
         return "redirect:/users";
     }
 
