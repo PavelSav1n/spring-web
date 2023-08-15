@@ -7,6 +7,7 @@ import org.h2.tools.Console;
 import ru.itsjava.service.FilmService;
 import ru.itsjava.domain.*;
 import ru.itsjava.service.FilmServiceImpl;
+import ru.itsjava.service.GenreService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,19 +16,17 @@ import java.util.List;
 @SpringBootApplication
 public class SpringBootJpaDataMvcThymeleafApplication {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SpringBootJpaDataMvcThymeleafApplication.class, args);
 
-//        FilmService filmService = context.getBean(FilmService.class);
-//
-//        // Демонстрация того, что fromDto возвращает нам изменённый объект с другими полями
-//        Place place = new Place(0L, "newPlace", 3L);
-//        List<Place> list = new ArrayList<>();
-//        list.add(place);
-//        filmService.create(new Film(0L, "NewFilm", new Genre(0L, "fantasy"), list));
-//        filmService.printAllFilms();
+        FilmService filmService = context.getBean(FilmService.class);
+        GenreService genreService = context.getBean(GenreService.class);
 
-//		Console.main(args);
+        Genre genre = genreService.getById(1).get(); // получаем жанр из персиста
+
+        filmService.create(new Film(0L, "NewFilm", genre, null)); // создаём фильм
+
+        filmService.printAllFilms(); // получаем ексепшн InvalidDataAccessApiUsageException: detached entity passed to persist: ru.itsjava.domain.Genre
 
     }
 

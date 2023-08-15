@@ -43,7 +43,7 @@ public class FilmController {
     }
 
     @PostMapping("/film/add")
-    public String postFilmPage(FilmDto filmDto){
+    public String postFilmPage(FilmDto filmDto) {
         filmService.create(FilmDto.fromDto(filmDto));
         return "/film";
     }
