@@ -1,7 +1,6 @@
 package ru.itsjava.rest.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

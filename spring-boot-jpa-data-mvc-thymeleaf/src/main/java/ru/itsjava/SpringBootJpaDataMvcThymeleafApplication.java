@@ -8,6 +8,7 @@ import ru.itsjava.service.FilmService;
 import ru.itsjava.domain.*;
 import ru.itsjava.service.FilmServiceImpl;
 import ru.itsjava.service.GenreService;
+import ru.itsjava.service.OrderService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,18 +17,23 @@ import java.util.List;
 @SpringBootApplication
 public class SpringBootJpaDataMvcThymeleafApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         ConfigurableApplicationContext context = SpringApplication.run(SpringBootJpaDataMvcThymeleafApplication.class, args);
+//
+//        FilmService filmService = context.getBean(FilmService.class);
+//        GenreService genreService = context.getBean(GenreService.class);
+//
+//        Genre genre = genreService.getById(1).get(); // получаем жанр из персиста
+//
+//        filmService.create(new Film(0L, "NewFilm", genre, null)); // создаём фильм
+//
+//        filmService.printAllFilms(); // получаем ексепшн InvalidDataAccessApiUsageException: detached entity passed to persist: ru.itsjava.domain.Genre
 
-        FilmService filmService = context.getBean(FilmService.class);
-        GenreService genreService = context.getBean(GenreService.class);
+        OrderService orderService = context.getBean(OrderService.class);
 
-        Genre genre = genreService.getById(1).get(); // получаем жанр из персиста
 
-        filmService.create(new Film(0L, "NewFilm", genre, null)); // создаём фильм
 
-        filmService.printAllFilms(); // получаем ексепшн InvalidDataAccessApiUsageException: detached entity passed to persist: ru.itsjava.domain.Genre
-
+        Console.main(args);
     }
 
 }
